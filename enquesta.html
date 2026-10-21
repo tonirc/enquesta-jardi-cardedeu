@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El nostre jardí del futur — Enquesta de veïns</title>
+<style>
+  :root {
+    --verd: #3a7d44;
+    --verd-fosc: #2a5c33;
+    --verd-clar: #eaf4ec;
+    --text: #27312b;
+    --text-suau: #5b665e;
+    --fons: #f6f8f6;
+    --blanc: #ffffff;
+    --vora: #d9e4da;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--fons);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .contenidor {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  .targeta {
+    background: var(--blanc);
+    border: 1px solid var(--vora);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .pas { display: none; }
+  .pas.actiu { display: block; animation: aparèixer .25s ease; }
+
+  @keyframes aparèixer {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    color: var(--verd-fosc);
+    margin: 0 0 4px;
+  }
+
+  .subtitol {
+    color: var(--text-suau);
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+  }
+
+  .foto-portada {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    background: repeating-linear-gradient(45deg, var(--verd-clar), var(--verd-clar) 10px, #e1ede3 10px, #e1ede3 20px);
+    border: 1px dashed #a9c4ae;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-suau);
+    font-size: 0.9rem;
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+  /* Quan tinguem la foto real, substituir aquest div per:
+     <img src="DATA_URI_O_FITXER" alt="El jardí comunitari" class="foto-portada" style="object-fit:cover;"> */
+
+  p { color: var(--text); }
+
+  .info-vot {
+    background: var(--verd-clar);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    color: var(--verd-fosc);
+    margin: 20px 0;
+  }
+
+  .boto {
+    display: inline-block;
+    background: var(--verd);
+    color: var(--blanc);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background .15s ease;
+  }
+  .boto:hover:not(:disabled) { background: var(--verd-fosc); }
+  .boto:disabled { background: #b8c7bb; cursor: not-allowed; }
+
+  .boto-secundari {
+    background: transparent;
+    color: var(--verd-fosc);
+    border: 1px solid var(--vora);
+    width: auto;
+    padding: 12px 18px;
+    margin-right: 10px;
+  }
+  .boto-secundari:hover { background: var(--verd-clar); }
+
+  .navegacio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .progres {
+    font-size: 0.8rem;
+    color: var(--text-suau);
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--vora);
+    background: var(--blanc);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .ajuda {
+    font-size: 0.85rem;
+    color: var(--text-suau);
+    margin-top: 6px;
+  }
+
+  .placeholder-futur {
+    border: 1px dashed var(--vora);
+    border-radius: 10px;
+    padding: 16px;
+    color: var(--text-suau);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-suau);
+    margin-top: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="contenidor">
+  <div class="targeta">
+
+    <!-- PAS 0: PORTADA -->
+    <section class="pas actiu" id="pas-portada">
+      <h1>El nostre jardí del futur</h1>
+      <p class="subtitol">Enquesta per a la comunitat de veïns</p>
+
+      <div class="foto-portada" id="foto-portada">
+        Aquí hi anirà la foto del jardí
+      </div>
+
+      <p>
+        Volem decidir entre tots com imaginem el futur del nostre jardí comunitari.
+        Amb aquesta breu enquesta, cada habitatge podrà donar la seva opinió perquè
+        les decisions reflecteixin el que la majoria de veïns desitgem.
+      </p>
+
+      <div class="info-vot">
+        Cada habitatge emet <strong>un únic vot</strong>. Trigaràs només
+        uns minuts a respondre.
+      </div>
+
+      <button class="boto" id="boto-comenca">Comença l'enquesta</button>
+    </section>
+
+    <!-- PAS 1: HABITATGE -->
+    <section class="pas" id="pas-1">
+      <div class="progres">Pregunta 1</div>
+
+      <label for="select-habitatge">Quin és el teu habitatge?</label>
+      <select id="select-habitatge">
+        <option value="" selected disabled>Selecciona planta i pis</option>
+        <optgroup label="Planta Baixa">
+          <option value="PB-1">Planta Baixa — Pis 1</option>
+          <option value="PB-2">Planta Baixa — Pis 2</option>
+          <option value="PB-3">Planta Baixa — Pis 3</option>
+        </optgroup>
+        <optgroup label="Primer Pis">
+          <option value="1R-1">Primer Pis — Pis 1</option>
+          <option value="1R-2">Primer Pis — Pis 2</option>
+          <option value="1R-3">Primer Pis — Pis 3</option>
+        </optgroup>
+        <optgroup label="Segon Pis">
+          <option value="2N-1">Segon Pis — Pis 1</option>
+          <option value="2N-2">Segon Pis — Pis 2</option>
+          <option value="2N-3">Segon Pis — Pis 3</option>
+        </optgroup>
+      </select>
+      <p class="ajuda">Això ens permet assegurar un vot per habitatge.</p>
+
+      <div class="navegacio">
+        <button class="boto boto-secundari" data-tornar="pas-portada">Enrere</button>
+        <button class="boto" id="boto-continua-1" disabled style="width:auto;">Continua</button>
+      </div>
+    </section>
+
+    <!-- PAS FINAL: ENVIAMENT (aquí s'aniran afegint noves preguntes abans d'aquest pas) -->
+    <section class="pas" id="pas-final">
+      <div class="progres">Última passa</div>
+      <div class="placeholder-futur">
+        Properament s'afegiran aquí la resta de preguntes de l'enquesta. De
+        moment, ja pots enviar la teva resposta.
+      </div>
+      <div class="navegacio">
+        <button class="boto boto-secundari" data-tornar="pas-1">Enrere</button>
+        <button class="boto" id="boto-enviar" style="width:auto;">Enviar la meva resposta</button>
+      </div>
+    </section>
+
+    <!-- PAS GRÀCIES -->
+    <section class="pas" id="pas-gracies">
+      <h1>Gràcies!</h1>
+      <p>La teva resposta s'ha registrat correctament.</p>
+    </section>
+
+  </div>
+  <footer>Enquesta privada de la comunitat de veïns — les respostes no es comparteixen amb tercers.</footer>
+</div>
+
+<script>
+  // URL de l'Apps Script desplegat com a "Aplicació web" (acaba en /exec).
+  // Substituir pel valor real un cop desplegat el Google Sheet — veure CLAUDE.md.
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2aC0a2LtUbmc4v_4p4qs5bRS7yfmeRtTpYD5lN9PNM5Qzjl0OnATugcPsHMojK0rXwg/exec";
+
+  // Estat de les respostes que s'enviaran a Google Sheets
+  const respostes = {
+    habitatge: null
+  };
+
+  function mostrarPas(idPas) {
+    document.querySelectorAll('.pas').forEach(p => p.classList.remove('actiu'));
+    document.getElementById(idPas).classList.add('actiu');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('boto-comenca').addEventListener('click', () => {
+    mostrarPas('pas-1');
+  });
+
+  document.querySelectorAll('[data-tornar]').forEach(boto => {
+    boto.addEventListener('click', () => mostrarPas(boto.dataset.tornar));
+  });
+
+  const selectHabitatge = document.getElementById('select-habitatge');
+  const botoContinua1 = document.getElementById('boto-continua-1');
+
+  selectHabitatge.addEventListener('change', () => {
+    botoContinua1.disabled = !selectHabitatge.value;
+  });
+
+  botoContinua1.addEventListener('click', () => {
+    respostes.habitatge = selectHabitatge.value;
+    mostrarPas('pas-final');
+  });
+
+  const botoEnviar = document.getElementById('boto-enviar');
+
+  botoEnviar.addEventListener('click', async () => {
+    if (APPS_SCRIPT_URL === "ENCARA_NO_CONFIGURAT") {
+      alert('Encara no s\'ha connectat amb Google Sheets. Configura APPS_SCRIPT_URL abans de provar l\'enviament.');
+      return;
+    }
+
+    botoEnviar.disabled = true;
+    botoEnviar.textContent = 'Enviant...';
+
+    try {
+      // mode: 'no-cors' evita el preflight CORS d'Apps Script; no permet
+      // llegir la resposta, però la petició arriba igualment al servidor.
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(respostes)
+      });
+      mostrarPas('pas-gracies');
+    } catch (err) {
+      alert('Hi ha hagut un problema enviant la resposta. Comprova la connexió i torna-ho a provar.');
+      botoEnviar.disabled = false;
+      botoEnviar.textContent = 'Enviar la meva resposta';
+    }
+  });
+</script>
+
+</body>
+</html>
